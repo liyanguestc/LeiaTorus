@@ -17,7 +17,7 @@
  var textRadius = 1.75 * worldRadius;
  var relcoeff = -0.3;
  var spotLight;
-
+ var group;
  head.ready(function() {
      Init();
      animate();
@@ -89,6 +89,9 @@
 
  function addObjectsToScene() {
      //Add your objects here
+    group = new THREE.Object3D();
+    scene.add(group);
+   
      var worldTexture = new THREE.ImageUtils.loadTexture('resource/world_texture.jpg');
      worldTexture.wrapS = worldTexture.wrapT = THREE.RepeatWrapping;
      worldTexture.repeat.set(1, 1);
@@ -126,7 +129,51 @@
      plane.receiveShadow = true;
      scene.add(plane);
 
-     readSTLs('resource/AUO2.stl', '', '');
+      var helloWorldGeometry = new THREE.TextGeometry(
+        "Leia", {
+            size: 14,
+            height: 2,
+            curveSegments: 4,
+            font: "helvetiker",
+            weight: "bold",
+            style: "normal",
+            bevelThickness: 0.5,
+            bevelSize: 0.25,
+            bevelEnabled: true,
+            material: 0,
+            extrudeMaterial: 1
+        }
+    );
+    helloWorldGeometry.computeBoundingBox();
+    var hwbb = helloWorldGeometry.boundingBox;
+    var hwbbx = -0.5 * (hwbb.max.x - hwbb.min.x);
+    var hwbby = -0.5 * (hwbb.max.y - hwbb.min.y);
+    var helloWorldMaterial = new THREE.MeshFaceMaterial(
+        [
+            new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                //shading: THREE.FlatShading
+            }), // front
+            new THREE.MeshPhongMaterial({
+                color: 0xaaaaaa,
+                shading: THREE.SmoothShading
+            }) // side
+        ]
+    );
+    helloWorldMesh = new THREE.Mesh(helloWorldGeometry, helloWorldMaterial);
+    helloWorldMesh.castShadow = true;
+    //helloWorldMesh.position.set(hwbbx, hwbby, 4);
+    //helloWorldMesh.position.set(hwbbx, hwbby, 3);
+    helloWorldMesh.position.set(hwbbx, hwbby, 0);
+    group.add(helloWorldMesh);
+
+
+var geometry = new THREE.TorusGeometry( 25, 4, 16, 100 );
+var material = new THREE.MeshBasicMaterial( { color: 0xcc00cc } );
+mesh1 = new THREE.Mesh( geometry, material );
+mesh1.castShadow = true;
+mesh1.receiveShadow = true;
+scene.add( mesh1 );
  }
 
  function addLights() {
