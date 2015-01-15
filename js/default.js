@@ -42,8 +42,8 @@
          compFac: _depthCompressionFactor,
          devicePixelRatio: 1
      });
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapSoft = true;
+     renderer.shadowMapEnabled = true;
+     renderer.shadowMapSoft = true;
      renderer.Leia_setSize({
          width: windowWidth,
          height: windowHeight,
@@ -65,14 +65,11 @@
      requestAnimationFrame(animate);
 
      var time = LEIA.time;
-     mesh1.rotation.set(Math.sin(3.2 * time), 0.3 * Math.sin(2.7 * time), 0.5 * Math.sin(4 * time));
      mesh1.position.z = 4;
-     var rx = 1.0;
-     var gx = 0.0;
-     var bx = Math.sin(0.23 * time + 0.3) * Math.sin(0.23 * time + 0.3);
-     mesh1.material.color.r = rx;
-     mesh1.material.color.g = gx;
-     mesh1.material.color.b = bx;
+     mesh1.rotation.set(0.4 * Math.sin(3.2 * time), 0.35 * Math.sin(4 * time), 0);
+     group.position.z = 4;
+     //helloWorldMesh.rotation.set(0.4*Math.sin(-3.2*time), 0.35*Math.sin(4*time), 0);
+     group.rotation.set(0.4 * Math.sin(-3.2 * time), 0.35 * Math.sin(4 * time), 0);
      renderer.Leia_render({
          scene: scene,
          camera: camera,
@@ -89,9 +86,9 @@
 
  function addObjectsToScene() {
      //Add your objects here
-    group = new THREE.Object3D();
-    scene.add(group);
-   
+     group = new THREE.Object3D();
+     scene.add(group);
+
      var worldTexture = new THREE.ImageUtils.loadTexture('resource/world_texture.jpg');
      worldTexture.wrapS = worldTexture.wrapT = THREE.RepeatWrapping;
      worldTexture.repeat.set(1, 1);
@@ -129,51 +126,53 @@
      plane.receiveShadow = true;
      scene.add(plane);
 
-      var helloWorldGeometry = new THREE.TextGeometry(
-        "Leia", {
-            size: 14,
-            height: 2,
-            curveSegments: 4,
-            font: "helvetiker",
-            weight: "bold",
-            style: "normal",
-            bevelThickness: 0.5,
-            bevelSize: 0.25,
-            bevelEnabled: true,
-            material: 0,
-            extrudeMaterial: 1
-        }
-    );
-    helloWorldGeometry.computeBoundingBox();
-    var hwbb = helloWorldGeometry.boundingBox;
-    var hwbbx = -0.5 * (hwbb.max.x - hwbb.min.x);
-    var hwbby = -0.5 * (hwbb.max.y - hwbb.min.y);
-    var helloWorldMaterial = new THREE.MeshFaceMaterial(
-        [
-            new THREE.MeshPhongMaterial({
-                color: 0xffffff,
-                //shading: THREE.FlatShading
-            }), // front
-            new THREE.MeshPhongMaterial({
-                color: 0xaaaaaa,
-                shading: THREE.SmoothShading
-            }) // side
-        ]
-    );
-    helloWorldMesh = new THREE.Mesh(helloWorldGeometry, helloWorldMaterial);
-    helloWorldMesh.castShadow = true;
-    //helloWorldMesh.position.set(hwbbx, hwbby, 4);
-    //helloWorldMesh.position.set(hwbbx, hwbby, 3);
-    helloWorldMesh.position.set(hwbbx, hwbby, 0);
-    group.add(helloWorldMesh);
+     var helloWorldGeometry = new THREE.TextGeometry(
+         "Leia", {
+             size: 14,
+             height: 2,
+             curveSegments: 4,
+             font: "helvetiker",
+             weight: "bold",
+             style: "normal",
+             bevelThickness: 0.5,
+             bevelSize: 0.25,
+             bevelEnabled: true,
+             material: 0,
+             extrudeMaterial: 1
+         }
+     );
+     helloWorldGeometry.computeBoundingBox();
+     var hwbb = helloWorldGeometry.boundingBox;
+     var hwbbx = -0.5 * (hwbb.max.x - hwbb.min.x);
+     var hwbby = -0.5 * (hwbb.max.y - hwbb.min.y);
+     var helloWorldMaterial = new THREE.MeshFaceMaterial(
+         [
+             new THREE.MeshPhongMaterial({
+                 color: 0xffffff,
+                 //shading: THREE.FlatShading
+             }), // front
+             new THREE.MeshPhongMaterial({
+                 color: 0xaaaaaa,
+                 shading: THREE.SmoothShading
+             }) // side
+         ]
+     );
+     helloWorldMesh = new THREE.Mesh(helloWorldGeometry, helloWorldMaterial);
+     helloWorldMesh.castShadow = true;
+     //helloWorldMesh.position.set(hwbbx, hwbby, 4);
+     //helloWorldMesh.position.set(hwbbx, hwbby, 3);
+     helloWorldMesh.position.set(hwbbx, hwbby, 0);
+     group.add(helloWorldMesh);
 
 
-var geometry = new THREE.TorusGeometry( 25, 4, 16, 100 );
-var material = new THREE.MeshBasicMaterial( { color: 0xcc00cc } );
-mesh1 = new THREE.Mesh( geometry, material );
-mesh1.castShadow = true;
-mesh1.receiveShadow = true;
-scene.add( mesh1 );
+     var geometry = new THREE.TorusGeometry(25, 4, 16, 100);
+     var material = new THREE.MeshBasicMaterial({
+         color: 0xcc00cc
+     });
+     mesh1 = new THREE.Mesh(geometry, material);
+     mesh1.castShadow = true;
+     mesh1.receiveShadow = true;
+     scene.add(mesh1);
  }
 
  function addLights() {
